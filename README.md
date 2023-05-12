@@ -32,7 +32,7 @@ install vscode_deno extension enable deno for workspace
 
 copy `.env.dist` to `.env` and fill values
 
-run with `deno index.ts`
+run with `deno task start`
 
 open localhost:3000
 
