@@ -4,6 +4,13 @@ import UploadForm from "../islands/UploadForm.tsx";
 
 import { HandlerContext } from "$fresh/server.ts";
 import { createResponse } from "../services/api-helper.ts";
+import {
+  MAX_META_NAME_LENGTH,
+  validateMeta,
+  validateResults,
+} from "../services/validator.ts";
+import { MetaData, SessionResults } from "../services/types.d.ts";
+import { processFiles } from "../services/process-upload.ts";
 
 export const handler = async (
   _req: Request,
@@ -19,10 +26,10 @@ export const handler = async (
     console.log(meta);
     console.log(file);
 
-    let json = "";
+    let json: SessionResults | null = null;
 
     try {
-      json = JSON.parse(file as string);
+      json = JSON.parse(file as string) as SessionResults;
       console.log("success, file was parsable");
     } catch (e) {
       console.log("retrieved invalid json");
@@ -33,9 +40,31 @@ export const handler = async (
       );
     }
 
-    // validate json file
+    let meta_data: MetaData | null = null;
+    try {
+      meta_data = JSON.parse(meta as string) as MetaData;
+    } catch (e) {
+      console.log("retrieved invalid meta data");
 
-    // work with data
+      return createResponse(
+        400,
+        "Invalid meta data retrieved. Please check name",
+      );
+    }
+
+    // validate json file
+    if (json && !validateResults(json)) {
+      return createResponse(400, "Missing data in results file");
+    }
+    // validate meta data
+    if (meta_data && !validateMeta(meta_data)) {
+      return createResponse(
+        400,
+        `Invalid meta data retrieved. Name is longer than ${MAX_META_NAME_LENGTH} characters`,
+      );
+    }
+
+    await processFiles(meta_data, json);
 
     return createResponse(
       200,

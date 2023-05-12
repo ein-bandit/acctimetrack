@@ -1,6 +1,7 @@
 import Button from "../islands/Button.tsx";
 import Input from "../components/Input.tsx";
 import { useRef, useState } from "preact/hooks";
+import { MAX_META_NAME_LENGTH } from "../services/validator.ts";
 
 export default function UploadForm() {
   const [meta, setMeta] = useState({ name: "" });
@@ -46,6 +47,7 @@ export default function UploadForm() {
         name="server-name"
         type="text"
         label="Server Name"
+        maxLength={MAX_META_NAME_LENGTH}
         value={meta.name}
         onInput={(e) => {
           setMeta({
