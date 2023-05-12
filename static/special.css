@@ -1,6 +1,6 @@
-[type=button].bg-primary:disabled {
+[type=submit].bg-primary:disabled {
     background-color: rgba(59, 113, 202, 0.4) !important;
 }
-[type=button].bg-primary {
+[type=submit].bg-primary {
     background-color: rgb(59 113 202/var(--tw-bg-opacity));
 }

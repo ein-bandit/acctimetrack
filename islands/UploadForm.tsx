@@ -1,22 +1,42 @@
 import Button from "../islands/Button.tsx";
 import Input from "../components/Input.tsx";
-import { useState } from "preact/hooks";
+import { useRef, useState } from "preact/hooks";
 
 export default function UploadForm() {
-  const [name, setName] = useState("");
-  const [file, setFile] = useState<File | null>(null);
+  const [meta, setMeta] = useState({ name: "" });
+  const [file, setFile] = useState<string | null>(null);
+  const [fileError, setFileError] = useState<boolean>(false);
+
   return (
     <>
       <Input
         type="file"
         name="file-upload"
-        label="Upload your results file"
+        label={fileError ? "File is not valid" : "Upload your results file"}
+        error={fileError}
+        accept=".json"
         onChange={(e) => {
           const files = (e.target as HTMLInputElement)?.files;
+          setFileError(false);
           if (files?.length) {
-            setFile(files[0]);
+            const reader = new FileReader();
+            reader.onload = (event) => {
+              console.log(event.target?.result);
+              const string_data = event.target?.result ?? "";
+              try {
+                const obj = JSON.parse(string_data as string);
+                console.log(obj);
+                setFile(obj);
+              } catch (exc) {
+                console.error("could not parse uploaded file", exc.message);
+                (e.target as HTMLInputElement).value = "";
+                setFileError(true);
+              }
+            };
+            reader.readAsText(files[0]);
           } else {
             setFile(null);
+            setFileError(false);
           }
         }}
       >
@@ -26,26 +46,44 @@ export default function UploadForm() {
         name="server-name"
         type="text"
         label="Server Name"
-        value={name}
+        value={meta.name}
         onInput={(e) => {
-          setName((e.target as HTMLInputElement).value ?? "");
+          setMeta({
+            ...meta,
+            name: (e.target as HTMLInputElement).value ?? "",
+          });
         }}
       >
       </Input>
       <div class="mt-2">
         Hint: add a server name to group multiple sessions in a single dashboard
       </div>
-      <div class="flex justify-end">
-        <Button
-          type="button"
-          text="Upload"
-          disabled={!file || !name.length}
-          onClick={() => {
-            console.log("upload clicked", name, file);
-          }}
-        >
-        </Button>
-      </div>
+
+      <form
+        method={"post"}
+        onSubmit={(e) => {
+          console.log("upload clicked", meta.name, file);
+        }}
+      >
+        <input
+          type="hidden"
+          name="meta"
+          value={JSON.stringify(meta)}
+        />
+        <input
+          type="hidden"
+          name="file"
+          value={JSON.stringify(file)}
+        />
+        <div class="flex justify-end">
+          <Button
+            type="submit"
+            text="Upload"
+            disabled={!file || !meta.name.length || fileError}
+          >
+          </Button>
+        </div>
+      </form>
     </>
   );
 }
