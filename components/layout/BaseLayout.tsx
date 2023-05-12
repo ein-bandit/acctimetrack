@@ -4,8 +4,9 @@ import { ComponentChildren } from "preact";
 
 type Props = {
   children: ComponentChildren;
+  path: string;
 };
-export default function BaseLayout({ children }: Props) {
+export default function BaseLayout({ children, path }: Props) {
   return (
     <>
       <Head>
@@ -21,7 +22,7 @@ export default function BaseLayout({ children }: Props) {
         <script>
         </script>
       </Head>
-      <Header active="/"></Header>
+      <Header active={path}></Header>
       <div class="p-4 mx-auto max-w-screen-md">
         {children}
       </div>

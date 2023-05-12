@@ -1,10 +1,10 @@
-import { useState } from "preact/hooks";
+import { PageProps } from "$fresh/server.ts";
 import Input from "../components/Input.tsx";
 import BaseLayout from "../components/layout/BaseLayout.tsx";
 
-export default function Counter() {
+export default function Counter(props: PageProps) {
   return (
-    <BaseLayout>
+    <BaseLayout path={props.url.pathname}>
       <div class="mb-4">
         If you are searching for the automatic upload scripts for your server,
         head over to our{" "}
