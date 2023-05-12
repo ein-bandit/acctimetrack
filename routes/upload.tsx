@@ -1,0 +1,28 @@
+import { useState } from "preact/hooks";
+import Input from "../components/Input.tsx";
+import BaseLayout from "../components/layout/BaseLayout.tsx";
+
+export default function Counter() {
+  return (
+    <BaseLayout>
+      <div class="mb-4">
+        If you are searching for the automatic upload scripts for your server,
+        head over to our{" "}
+        <a
+          href="https://github.com/ein-bandit/acctimetrack"
+          target="_blank"
+          class="text-underline"
+        >
+          github
+        </a>
+      </div>
+
+      <h2 class="mb-2 mt-0 text-4xl font-medium leading-tight text-primary">
+        Upload Results
+      </h2>
+      <Input type="file" name="file-upload" label="Upload your results file">
+      </Input>
+      <Input name="server-name" type="text" label="Server Name"></Input>
+    </BaseLayout>
+  );
+}
