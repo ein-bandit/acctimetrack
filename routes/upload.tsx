@@ -22,7 +22,16 @@ export default function Counter() {
       </h2>
       <Input type="file" name="file-upload" label="Upload your results file">
       </Input>
-      <Input name="server-name" type="text" label="Server Name"></Input>
+      <Input
+        placeholder="[optional] add server name"
+        name="server-name"
+        type="text"
+        label="Server Name"
+      >
+      </Input>
+      <div class="mt-2">
+        Hint: add a server name to created a named dashboard to group sessions
+      </div>
     </BaseLayout>
   );
 }
