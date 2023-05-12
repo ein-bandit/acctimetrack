@@ -1,6 +1,7 @@
 import { PageProps } from "$fresh/server.ts";
-import Input from "../components/Input.tsx";
+import { useState } from "preact/hooks";
 import BaseLayout from "../components/layout/BaseLayout.tsx";
+import UploadForm from "../islands/UploadForm.tsx";
 
 export default function Counter(props: PageProps) {
   return (
@@ -20,18 +21,7 @@ export default function Counter(props: PageProps) {
       <h2 class="mb-2 mt-0 text-4xl font-medium leading-tight text-primary">
         Upload Results
       </h2>
-      <Input type="file" name="file-upload" label="Upload your results file">
-      </Input>
-      <Input
-        placeholder="[optional] add server name"
-        name="server-name"
-        type="text"
-        label="Server Name"
-      >
-      </Input>
-      <div class="mt-2">
-        Hint: add a server name to group multiple sessions in a single dashboard
-      </div>
+      <UploadForm></UploadForm>
     </BaseLayout>
   );
 }

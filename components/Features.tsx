@@ -32,8 +32,10 @@ export default function Features() {
       {featureItems.map((item) => {
         return (
           <div class="flex">
-            <div class="flex-initial bg-blue-600 inline-block p-3 rounded-xl text-white">
-              <item.icon class="w-8 h-8" />
+            <div class="flex-initial">
+              <div class="bg-blue-600 inline-block p-3 rounded-xl text-white">
+                <item.icon class="w-8 h-8" />
+              </div>
             </div>
             <p class="flex-1 ml-4 text-xl">
               {item.description}
