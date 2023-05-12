@@ -1,6 +1,7 @@
 import Features from "../components/Features.tsx";
 import BaseLayout from "../components/layout/BaseLayout.tsx";
 import { PageProps } from "$fresh/server.ts";
+import IconCalendarTime from "https://deno.land/x/tabler_icons_tsx@0.0.3/tsx/calendar-time.tsx";
 
 export default function Home(props: PageProps) {
   return (
@@ -8,10 +9,7 @@ export default function Home(props: PageProps) {
       <BaseLayout path={props.url.pathname}>
         <div class="flex content-center items-center">
           <div class="py-4 px-2">
-            <img
-              src="/logo.svg"
-              alt="acc time track logo"
-            />
+            <IconCalendarTime></IconCalendarTime>
           </div>
 
           <div class="flex content-center">
