@@ -31,11 +31,11 @@ export default function Features() {
     <div class="flex flex-col md:flex-row gap-8 bg-white p-8">
       {featureItems.map((item) => {
         return (
-          <div class="flex-1 space-y-2">
-            <div class="bg-blue-600 inline-block p-3 rounded-xl text-white">
-              <item.icon class="w-10 h-10" />
+          <div class="flex">
+            <div class="flex-initial bg-blue-600 inline-block p-3 rounded-xl text-white">
+              <item.icon class="w-8 h-8" />
             </div>
-            <p class="text-xl">
+            <p class="flex-1 ml-4 text-xl">
               {item.description}
             </p>
 

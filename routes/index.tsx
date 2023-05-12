@@ -13,8 +13,8 @@ export default function Home(props: PageProps) {
           </div>
 
           <div class="flex content-center">
-            <p class="">
-              Welcome to acc time track
+            <p>
+              Welcome to <span class="font-bold">acc time track</span>
             </p>
           </div>
         </div>
