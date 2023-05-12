@@ -30,7 +30,7 @@ export default function Counter(props: PageProps) {
       >
       </Input>
       <div class="mt-2">
-        Hint: add a server name to created a named dashboard to group sessions
+        Hint: add a server name to group multiple sessions in a single dashboard
       </div>
     </BaseLayout>
   );
