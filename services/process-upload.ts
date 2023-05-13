@@ -4,10 +4,12 @@ import { getLapsPerDriver } from "./results-gatherer.ts";
 import { LapTimeResult, MetaData, SessionResults } from "./types.d.ts";
 import { cleanName } from "./meta-helper.ts";
 
+export type StorageInfo = [number, string];
+
 export const processFiles = async (
   _meta: MetaData,
   results: SessionResults,
-) => {
+): Promise<StorageInfo> => {
   console.log("Processing files", _meta, results);
 
   const best_lap_times_per_driver = getLapsPerDriver(results);
@@ -31,6 +33,8 @@ export const processFiles = async (
   if (meta.name && meta.name.length) {
     await storeCollection(redis, meta.name, id);
   }
+
+  return [id, meta.name];
 };
 
 interface DBSession {

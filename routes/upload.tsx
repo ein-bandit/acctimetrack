@@ -3,14 +3,14 @@ import BaseLayout from "../components/layout/BaseLayout.tsx";
 import UploadForm from "../islands/UploadForm.tsx";
 
 import { HandlerContext } from "$fresh/server.ts";
-import { createResponse } from "../services/api-helper.ts";
+import { createDataResponse, createResponse } from "../services/api-helper.ts";
 import {
   MAX_META_NAME_LENGTH,
   validateMeta,
   validateResults,
 } from "../services/validator.ts";
 import { MetaData, SessionResults } from "../services/types.d.ts";
-import { processFiles } from "../services/process-upload.ts";
+import { processFiles, StorageInfo } from "../services/process-upload.ts";
 
 export const handler = async (
   _req: Request,
@@ -66,15 +66,23 @@ export const handler = async (
       );
     }
 
-    await processFiles(meta_data, json);
+    const storageInfo = await processFiles(meta_data, json);
 
-    return createResponse(
+    const links = createLinksFromStorageInfo(storageInfo);
+    return createDataResponse(
       200,
-      "Lap Times stored successfully. url: ...",
+      {
+        message: "Lap Times stored successfully.",
+        links,
+      },
     );
   }
   // if GET request
   return _ctx.render();
+};
+
+const createLinksFromStorageInfo = (storageInfo: StorageInfo): string[] => {
+  return storageInfo.map((si) => `https://acctimetrack.herokuapp.com/${si}`);
 };
 
 export default function Upload(props: PageProps) {
