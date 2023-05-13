@@ -18,6 +18,7 @@ export const processFiles = async (
     sessionType: results.sessionType,
     trackName: results.trackName,
     isWetSession: results.sessionResult.isWetSession === 1,
+    timestamp: new Date().getTime(),
     times: best_lap_times_per_driver,
   };
 
