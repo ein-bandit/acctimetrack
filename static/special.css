@@ -4,3 +4,7 @@
 [type=submit].bg-primary {
     background-color: rgb(59 113 202/var(--tw-bg-opacity));
 }
+
+input {
+    outline: none !important;
+}
