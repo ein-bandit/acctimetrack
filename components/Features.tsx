@@ -2,6 +2,7 @@ import IconAlarm from "https://deno.land/x/tabler_icons_tsx@0.0.3/tsx/alarm.tsx"
 import IconAirBalloon from "https://deno.land/x/tabler_icons_tsx@0.0.3/tsx/air-balloon.tsx";
 import IconArmchair from "https://deno.land/x/tabler_icons_tsx@0.0.3/tsx/armchair.tsx";
 import IconChevronRight from "https://deno.land/x/tabler_icons_tsx@0.0.3/tsx/chevron-right.tsx";
+import IconBrandOnedrive from "https://deno.land/x/tabler_icons_tsx@0.0.3/tsx/brand-onedrive.tsx";
 
 interface FeatureItem {
   // deno-lint-ignore no-explicit-any
@@ -14,7 +15,7 @@ export default function Features() {
   const featureItems: FeatureItem[] = [
     {
       icon: IconAlarm,
-      description: "Laps Times of your ACC sessions publicly available",
+      description: "Lap Times of your ACC sessions publicly available",
     },
     {
       icon: IconAirBalloon,
@@ -23,7 +24,11 @@ export default function Features() {
     },
     {
       icon: IconArmchair,
-      description: "Scripts for your server for automatic upload",
+      description: "Scripts for your server for automatic results upload",
+    },
+    {
+      icon: IconBrandOnedrive,
+      description: "Use cloud version or host yourself",
     },
   ];
 
@@ -33,7 +38,7 @@ export default function Features() {
         return (
           <div class="flex">
             <div class="flex-initial">
-              <div class="bg-blue-600 inline-block p-3 rounded-xl text-white">
+              <div class="bg-yellow-600 inline-block p-3 rounded-xl text-white">
                 <item.icon class="w-8 h-8" />
               </div>
             </div>
