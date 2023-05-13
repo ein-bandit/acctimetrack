@@ -151,7 +151,7 @@ export default function UploadForm() {
         {!groupingActive && (
           <div>
             Hint: add a server name to group multiple sessions in a single
-            dashboard.
+            dashboard
           </div>
         )}
         {groupingActive &&
