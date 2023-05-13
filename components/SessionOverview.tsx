@@ -17,8 +17,8 @@ export default function SessionOverview(
     <div class="flex flex-col">
       <div class="flex justify-between">
         <div class="flex">
-          <div class="pr-1">{type}</div>
-          <div>{name}</div>
+          <div class="pr-1">session {type === "group" ? "group" : null}</div>
+          <div class="font-bold">{name}</div>
         </div>
         <div>
           {type === "group" && (
