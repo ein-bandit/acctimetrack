@@ -1,8 +1,10 @@
 import {
   CarAndDriver,
+  Driver,
   LapsEntity,
   LapTimeResult,
   LeaderBoardLinesEntity,
+  SessionResult,
   SessionResults,
 } from "./types.d.ts";
 
@@ -21,13 +23,28 @@ export const getLapsPerDriver = (results: SessionResults) => {
   );
 
   // merge down to have single best lap
+  // also replace playerId with playerName
   const single_best_lap_by_driver: { [key: string]: LapTimeResult } = {};
-
-  for (const driver of Object.keys(laps_by_driver)) {
-    single_best_lap_by_driver[driver] = laps_by_driver[driver][0];
+  for (const playerId of Object.keys(laps_by_driver)) {
+    const driver_name = getDriverName(playerId, results.sessionResult);
+    single_best_lap_by_driver[driver_name] = laps_by_driver[playerId][0];
   }
 
   return single_best_lap_by_driver;
+};
+
+const getDriverName = (
+  playerId: string,
+  sessionResult: SessionResult,
+): string => {
+  const driver_data = sessionResult.leaderBoardLines?.find((lbl) =>
+    lbl.currentDriver.playerId === playerId
+  );
+  if (driver_data === undefined) {
+    return playerId;
+  }
+  const { firstName, lastName } = driver_data?.currentDriver as Driver;
+  return `${firstName} ${lastName}`;
 };
 
 const getDriverByCarId = (leaderBoardLines: LeaderBoardLinesEntity[]) => {
