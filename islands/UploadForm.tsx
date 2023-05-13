@@ -3,14 +3,17 @@ import Input from "../components/Input.tsx";
 import { useState } from "preact/hooks";
 import { MAX_META_NAME_LENGTH } from "../services/validator.ts";
 import DashboardLinkPreview from "../components/DashboardLinkPreview.tsx";
+import CheckBoxInput from "../components/CheckBoxInput.tsx";
 
 interface UIMeta {
   name: string;
+  password: string;
 }
 export default function UploadForm() {
-  const [meta, setMeta] = useState<UIMeta>({ name: "" });
+  const [meta, setMeta] = useState<UIMeta>({ name: "", password: "" });
   const [file, setFile] = useState<string | null>(null);
   const [fileError, setFileError] = useState<boolean>(false);
+  const [groupingActive, setGroupingActive] = useState<boolean>(false);
 
   const handleFileSelect = (
     e: Event,
@@ -50,28 +53,63 @@ export default function UploadForm() {
         onChange={handleFileSelect}
       >
       </Input>
-      <Input
-        placeholder="[optional] add server name"
-        name="server-name"
-        type="text"
-        label="Server Name"
-        maxLength={MAX_META_NAME_LENGTH}
-        value={meta.name}
-        onInput={(e) => {
-          setMeta({
-            ...meta,
-            name: (e.target as HTMLInputElement).value ?? "",
-          });
+      <CheckBoxInput
+        type="checkbox"
+        checked={groupingActive}
+        onChange={(e) => {
+          setGroupingActive((e.target as HTMLInputElement).checked);
         }}
+        label="Group multiple sessions?"
       >
-      </Input>
+      </CheckBoxInput>
       <div>
-        {meta.name.length > 0 && (
-          <div>
-            <DashboardLinkPreview name={meta.name}></DashboardLinkPreview>
-          </div>
+        {groupingActive && (
+          <>
+            <div>
+              <Input
+                placeholder="add server name"
+                name="server-name"
+                type="text"
+                label="Server Name"
+                maxLength={MAX_META_NAME_LENGTH}
+                value={meta.name}
+                onInput={(e) => {
+                  setMeta({
+                    ...meta,
+                    name: (e.target as HTMLInputElement).value ?? "",
+                  });
+                }}
+              >
+              </Input>
+              <div>
+                {meta.name.length > 0 && (
+                  <div>
+                    <DashboardLinkPreview name={meta.name} />
+                  </div>
+                )}
+              </div>
+            </div>
+            <div class="mt-1">
+              <Input
+                placeholder="password to add more sessions to group later"
+                name="server-password"
+                type="text"
+                label="Grouping Password"
+                maxLength={MAX_META_NAME_LENGTH}
+                value={meta.password}
+                onInput={(e) => {
+                  setMeta({
+                    ...meta,
+                    password: (e.target as HTMLInputElement).value ?? "",
+                  });
+                }}
+              >
+              </Input>
+            </div>
+          </>
         )}
       </div>
+
       <div class="mt-2">
         Hint: add a server name to group multiple sessions in a single dashboard
       </div>
