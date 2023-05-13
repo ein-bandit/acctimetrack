@@ -20,9 +20,9 @@ export default function SessionInfo({ data, type }: Props) {
 
   return (
     <div class="grid grid-cols-5 gap-4">
-      {cols.map((col) => {
+      {cols.map((col, index) => {
         return (
-          <div class="p-4">
+          <div class={index === 0 ? "py-4 pr-4" : "p-4"}>
             <div>{col[0]}</div>
             <div class="font-bold">{col[1]}</div>
           </div>
