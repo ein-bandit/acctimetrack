@@ -28,7 +28,7 @@ export default function Features() {
   ];
 
   return (
-    <div class="flex flex-col md:flex-row gap-8 bg-white p-8">
+    <div class="flex flex-col flex-row gap-8 bg-white pt-6">
       {featureItems.map((item) => {
         return (
           <div class="flex">
