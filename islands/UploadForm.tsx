@@ -146,19 +146,25 @@ export default function UploadForm() {
                 type="text"
                 error={passwordError}
                 onBlur={(e) => {
-                  if (!validateGroupPassword(meta.password)) {
+                  if (
+                    meta.password.length > 0 &&
+                    !validateGroupPassword(meta.password)
+                  ) {
                     setPasswordError(true);
                   }
                   setPwBlured(true);
                 }}
-                label="Grouping Password"
+                label="[Optional] Grouping Password"
                 maxLength={MAX_PASSWORD_LENGTH}
                 minLength={MIN_PASSWORD_LENGTH}
                 value={meta.password}
                 onInput={(e) => {
                   setPasswordError(false);
                   const value = (e.target as HTMLInputElement).value ?? "";
-                  if (pwBlured && !validateGroupPassword(value)) {
+                  if (
+                    pwBlured && value.length > 0 &&
+                    !validateGroupPassword(value)
+                  ) {
                     setPasswordError(true);
                   }
                   setMeta({
@@ -192,7 +198,7 @@ export default function UploadForm() {
       <form
         method={"post"}
         onSubmit={(e) => {
-          console.log("upload clicked", meta.name, file);
+          console.log("upload clicked", meta, file);
           if (
             (meta.name && !validateGroupName(meta.name)) ||
             (meta.password && !validateGroupPassword(meta.password))
@@ -217,7 +223,7 @@ export default function UploadForm() {
           <Button
             type="submit"
             text="Upload"
-            disabled={fileError ||
+            disabled={fileError || !file ||
               (groupingActive && (nameError || passwordError))}
           >
           </Button>
