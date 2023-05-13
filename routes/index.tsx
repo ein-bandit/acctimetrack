@@ -8,14 +8,10 @@ export default function Home(props: PageProps) {
     <>
       <BaseLayout path={props.url.pathname}>
         <div class="flex content-center items-center">
-          <div class="py-4 px-2">
-            <IconCalendarTime></IconCalendarTime>
-          </div>
-
           <div class="flex content-center">
-            <p>
-              Welcome to <span class="font-bold">acc time track</span>
-            </p>
+            <h1 class="mb-2 mt-0 text-3xl font-medium leading-tight text-yellow-600">
+              Welcome to <span class="font-bold">ACC Time Track</span>
+            </h1>
           </div>
         </div>
         <Features></Features>
