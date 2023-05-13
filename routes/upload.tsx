@@ -83,7 +83,7 @@ export const handler = async (
       return createResponse(400, "Missing or wrong data in results file");
     }
     // validate meta data
-    if (meta_data && !validateGroupName(meta_data.name)) {
+    if (meta_data.name && !validateGroupName(meta_data.name)) {
       console.log("meta data was not valid");
       return createResponse(
         400,

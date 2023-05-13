@@ -194,8 +194,8 @@ export default function UploadForm() {
         onSubmit={(e) => {
           console.log("upload clicked", meta.name, file);
           if (
-            !validateGroupName(meta.name) ||
-            !validateGroupPassword(meta.password)
+            (meta.name && !validateGroupName(meta.name)) ||
+            (meta.password && !validateGroupPassword(meta.password))
           ) {
             e.preventDefault();
             console.log("invalid data to submit");
