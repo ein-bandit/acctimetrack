@@ -14,6 +14,7 @@ export default function Home(props: PageProps) {
             </h1>
           </div>
         </div>
+        <hr class="my-1 h-0.5 border-t-1 bg-black-100 opacity-100 dark:opacity-50" />
         <Features></Features>
       </BaseLayout>
     </>
