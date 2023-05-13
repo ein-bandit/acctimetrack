@@ -82,7 +82,7 @@ export const handler = async (
 };
 
 const createLinksFromStorageInfo = (storageInfo: StorageInfo): string[] => {
-  return storageInfo.map((si) => `https://acctimetrack.herokuapp.com/${si}`);
+  return storageInfo.map((si) => `${Deno.env.get("HOST")}/${si}`);
 };
 
 export default function Upload(props: PageProps) {
