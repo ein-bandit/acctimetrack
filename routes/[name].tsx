@@ -3,7 +3,7 @@ import TimeTable from "../components/TimeTable.tsx";
 import { Handlers, PageProps } from "$fresh/server.ts";
 import { DBSession } from "../services/process-upload.ts";
 import { getSessionData } from "../services/data-fetcher.ts";
-import { getType } from "../services/data-helper.ts";
+import { convertSessionData, getType } from "../services/data-helper.ts";
 import SessionOverview from "../components/SessionOverview.tsx";
 
 export const handler: Handlers<DBSession[]> = {
@@ -18,11 +18,13 @@ export default function Greet(
 ) {
   const type: "group" | "session" = getType(params.name);
 
+  const results = convertSessionData(data);
+
   return (
     <>
       <BaseLayout path={url.pathname}>
         <SessionOverview name={params.name} type={type} data={data} />
-        <TimeTable></TimeTable>
+        <TimeTable results={results}></TimeTable>
       </BaseLayout>
     </>
   );

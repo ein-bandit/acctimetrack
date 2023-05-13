@@ -1,37 +1,57 @@
-export default function TimeTable() {
+import { fmt } from "../services/data-helper.ts";
+import { LapTimeResult } from "../services/types.d.ts";
+import SessionLink from "./SessionLink.tsx";
+
+export interface UIResult {
+  driver: string;
+  session: number;
+  lap: LapTimeResult;
+}
+
+type Props = {
+  results: UIResult[];
+};
+
+export default function TimeTable(props: Props) {
   return (
     <div class="flex flex-col">
       <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-        <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+        <div class="inline-block min-w-full py-2">
           <div class="overflow-hidden">
             <table class="min-w-full text-left text-sm font-light">
               <thead class="border-b font-medium dark:border-neutral-500">
                 <tr>
-                  <th scope="col" class="px-6 py-4">#</th>
-                  <th scope="col" class="px-6 py-4">First</th>
-                  <th scope="col" class="px-6 py-4">Last</th>
-                  <th scope="col" class="px-6 py-4">Handle</th>
+                  <th scope="col" class="px-6 py-4">Name</th>
+                  <th scope="col" class="px-6 py-4">Laptime</th>
+                  <th scope="col" class="px-6 py-4">S1</th>
+                  <th scope="col" class="px-6 py-4">S2</th>
+                  <th scope="col" class="px-6 py-4">S3</th>
+                  <th scope="col" class="px-6 py-4">Session</th>
                 </tr>
               </thead>
               <tbody>
-                <tr class="border-b dark:border-neutral-500">
-                  <td class="whitespace-nowrap px-6 py-4 font-medium">1</td>
-                  <td class="whitespace-nowrap px-6 py-4">Mark</td>
-                  <td class="whitespace-nowrap px-6 py-4">Otto</td>
-                  <td class="whitespace-nowrap px-6 py-4">@mdo</td>
-                </tr>
-                <tr class="border-b dark:border-neutral-500">
-                  <td class="whitespace-nowrap px-6 py-4 font-medium">2</td>
-                  <td class="whitespace-nowrap px-6 py-4">Jacob</td>
-                  <td class="whitespace-nowrap px-6 py-4">Thornton</td>
-                  <td class="whitespace-nowrap px-6 py-4">@fat</td>
-                </tr>
-                <tr class="border-b dark:border-neutral-500">
-                  <td class="whitespace-nowrap px-6 py-4 font-medium">3</td>
-                  <td class="whitespace-nowrap px-6 py-4">Larry</td>
-                  <td class="whitespace-nowrap px-6 py-4">Wild</td>
-                  <td class="whitespace-nowrap px-6 py-4">@twitter</td>
-                </tr>
+                {props.results.map((result) => {
+                  return (
+                    <tr class="border-b dark:border-neutral-500">
+                      <td class="whitespace-nowrap px-6 py-4 font-medium">
+                        {result.driver}
+                      </td>
+                      <td class="whitespace-nowrap px-6 py-4">
+                        {fmt(result.lap.lap)}
+                      </td>
+                      {result.lap.splits.map((split) => {
+                        return (
+                          <td class="whitespace-nowrap px-6 py-4">
+                            {fmt(split)}
+                          </td>
+                        );
+                      })}
+                      <td class="whitespace-nowrap px-6 py-4">
+                        <SessionLink id={result.session}></SessionLink>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
