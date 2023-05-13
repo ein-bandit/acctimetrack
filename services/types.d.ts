@@ -2,24 +2,35 @@ export interface MetaData {
   name?: string;
 }
 
+export interface CarAndDriver {
+  id: number;
+  driver: Driver;
+  car: Pick<Car, "raceNumber" | "carModel" | "teamName">;
+}
+
+export interface LapTimeResult {
+  lap: number;
+  splits: number[];
+}
+
 export interface SessionResults {
   sessionType: string;
   trackName: string;
   sessionIndex: number;
   sessionResult: SessionResult;
-  laps?: (LapsEntity)[] | null;
+  laps: (LapsEntity)[] | null;
   penalties?: (PenaltiesEntity)[] | null;
 }
 export interface SessionResult {
   bestlap: number;
-  bestSplits?: (number)[] | null;
+  bestSplits: (number)[] | null;
   isWetSession: number;
   type: number;
   leaderBoardLines?: (LeaderBoardLinesEntity)[] | null;
 }
 export interface LeaderBoardLinesEntity {
   car: Car;
-  currentDriver: DriversEntityOrCurrentDriver;
+  currentDriver: Driver;
   currentDriverIndex: number;
   timing: Timing;
   missingMandatoryPitstop: number;
@@ -31,9 +42,9 @@ export interface Car {
   carModel: number;
   cupCategory: number;
   teamName: string;
-  drivers?: (DriversEntityOrCurrentDriver)[] | null;
+  drivers: (Driver)[];
 }
-export interface DriversEntityOrCurrentDriver {
+export interface Driver {
   firstName: string;
   lastName: string;
   shortName: string;
@@ -53,7 +64,7 @@ export interface LapsEntity {
   driverIndex: number;
   laptime: number;
   isValidForBest: boolean;
-  splits?: (number)[] | null;
+  splits: (number)[];
 }
 export interface PenaltiesEntity {
   carId: number;
