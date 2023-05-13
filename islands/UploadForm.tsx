@@ -1,7 +1,12 @@
 import Button from "../islands/Button.tsx";
 import Input from "../components/Input.tsx";
 import { useState } from "preact/hooks";
-import { MAX_META_NAME_LENGTH } from "../services/validator.ts";
+import {
+  MAX_META_NAME_LENGTH,
+  MAX_PASSWORD_LENGTH,
+  MIN_META_NAME_LENGTH,
+  MIN_PASSWORD_LENGTH,
+} from "../services/validator.ts";
 import DashboardLinkPreview from "../components/DashboardLinkPreview.tsx";
 import CheckBoxInput from "../components/CheckBoxInput.tsx";
 
@@ -72,6 +77,7 @@ export default function UploadForm() {
                 type="text"
                 label="Server Name"
                 maxLength={MAX_META_NAME_LENGTH}
+                minLength={MIN_META_NAME_LENGTH}
                 value={meta.name}
                 onInput={(e) => {
                   setMeta({
@@ -95,7 +101,8 @@ export default function UploadForm() {
                 name="server-password"
                 type="text"
                 label="Grouping Password"
-                maxLength={MAX_META_NAME_LENGTH}
+                maxLength={MAX_PASSWORD_LENGTH}
+                minLength={MIN_PASSWORD_LENGTH}
                 value={meta.password}
                 onInput={(e) => {
                   setMeta({
@@ -111,7 +118,19 @@ export default function UploadForm() {
       </div>
 
       <div class="mt-2">
-        Hint: add a server name to group multiple sessions in a single dashboard
+        {!groupingActive && (
+          <div>
+            Hint: add a server name to group multiple sessions in a single
+            dashboard.
+          </div>
+        )}
+        {groupingActive &&
+          (
+            <div>
+              Hint: use an optional password to make sure only you can add more
+              sessions to the group
+            </div>
+          )}
       </div>
 
       <form
@@ -130,7 +149,7 @@ export default function UploadForm() {
           name="file"
           value={JSON.stringify(file)}
         />
-        <div class="flex justify-end">
+        <div class="flex justify-end mt-5">
           <Button
             type="submit"
             text="Upload"
