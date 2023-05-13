@@ -6,7 +6,7 @@ import { HandlerContext } from "$fresh/server.ts";
 import { createDataResponse, createResponse } from "../services/api-helper.ts";
 import {
   MAX_META_NAME_LENGTH,
-  validateMeta,
+  validateGroupName,
   validateResults,
 } from "../services/validator.ts";
 import { MetaData, SessionResults } from "../services/types.d.ts";
@@ -58,7 +58,7 @@ export const handler = async (
       return createResponse(400, "Missing or wrong data in results file");
     }
     // validate meta data
-    if (meta_data && !validateMeta(meta_data)) {
+    if (meta_data && !validateGroupName(meta_data.name)) {
       console.log("meta data was not valid");
       return createResponse(
         400,

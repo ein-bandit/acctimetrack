@@ -6,6 +6,8 @@ import {
   MAX_PASSWORD_LENGTH,
   MIN_META_NAME_LENGTH,
   MIN_PASSWORD_LENGTH,
+  validateGroupName,
+  validateGroupPassword,
 } from "../services/validator.ts";
 import DashboardLinkPreview from "../components/DashboardLinkPreview.tsx";
 import CheckBoxInput from "../components/CheckBoxInput.tsx";
@@ -18,6 +20,10 @@ export default function UploadForm() {
   const [meta, setMeta] = useState<UIMeta>({ name: "", password: "" });
   const [file, setFile] = useState<string | null>(null);
   const [fileError, setFileError] = useState<boolean>(false);
+  const [nameError, setNameError] = useState<boolean>(false);
+  const [nameBlured, setNameBlured] = useState<boolean>(false);
+  const [passwordError, setPasswordError] = useState<boolean>(false);
+  const [pwBlured, setPwBlured] = useState<boolean>(false);
   const [groupingActive, setGroupingActive] = useState<boolean>(false);
 
   const handleFileSelect = (
@@ -75,14 +81,26 @@ export default function UploadForm() {
                 placeholder="add server name"
                 name="server-name"
                 type="text"
+                error={nameError}
+                onBlur={(e) => {
+                  if (!validateGroupName(meta.name)) {
+                    setNameError(true);
+                  }
+                  setNameBlured(true);
+                }}
                 label="Server Name"
                 maxLength={MAX_META_NAME_LENGTH}
                 minLength={MIN_META_NAME_LENGTH}
                 value={meta.name}
                 onInput={(e) => {
+                  setNameError(false);
+                  const value = (e.target as HTMLInputElement).value ?? "";
+                  if (nameBlured && !validateGroupName(value)) {
+                    setNameError(true);
+                  }
                   setMeta({
                     ...meta,
-                    name: (e.target as HTMLInputElement).value ?? "",
+                    name: value,
                   });
                 }}
               >
@@ -100,11 +118,23 @@ export default function UploadForm() {
                 placeholder="password to add more sessions to group later"
                 name="server-password"
                 type="text"
+                error={passwordError}
+                onBlur={(e) => {
+                  if (!validateGroupPassword(meta.password)) {
+                    setPasswordError(true);
+                  }
+                  setPwBlured(true);
+                }}
                 label="Grouping Password"
                 maxLength={MAX_PASSWORD_LENGTH}
                 minLength={MIN_PASSWORD_LENGTH}
                 value={meta.password}
                 onInput={(e) => {
+                  setPasswordError(false);
+                  const value = (e.target as HTMLInputElement).value ?? "";
+                  if (pwBlured && !validateGroupPassword(value)) {
+                    setPasswordError(true);
+                  }
                   setMeta({
                     ...meta,
                     password: (e.target as HTMLInputElement).value ?? "",
@@ -137,6 +167,14 @@ export default function UploadForm() {
         method={"post"}
         onSubmit={(e) => {
           console.log("upload clicked", meta.name, file);
+          if (
+            !validateGroupName(meta.name) ||
+            !validateGroupPassword(meta.password)
+          ) {
+            e.preventDefault();
+            console.log("invalid data to submit");
+            return false;
+          }
         }}
       >
         <input
