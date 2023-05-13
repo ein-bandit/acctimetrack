@@ -12,19 +12,6 @@ import {
 import { MetaData, SessionResults } from "../services/types.d.ts";
 import { processFiles, StorageInfo } from "../services/process-upload.ts";
 
-// deno-lint-ignore no-explicit-any
-function decodeUTF16LE(binaryStr: any) {
-  const cp = [];
-  for (let i = 0; i < binaryStr.length; i += 2) {
-    cp.push(
-      binaryStr.charCodeAt(i) |
-        (binaryStr.charCodeAt(i + 1) << 8),
-    );
-  }
-
-  return String.fromCharCode.apply(String, cp);
-}
-
 export const handler = async (
   _req: Request,
   _ctx: HandlerContext,
@@ -35,14 +22,9 @@ export const handler = async (
     console.log(_req.headers.get("content-type"));
 
     const meta = formData.get("meta");
-    let file = formData.get("file");
+    const file = formData.get("file");
     console.log(meta);
     console.log(file);
-
-    if (file === null) {
-      // we received an unknown encoding, probably UTF-16
-      file = decodeUTF16LE(file);
-    }
 
     if (file === null) {
       return createResponse(
