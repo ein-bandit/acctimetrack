@@ -100,7 +100,7 @@ export default function Upload(props: PageProps) {
         </a>
       </div>
 
-      <h2 class="mb-2 mt-0 text-4xl font-medium leading-tight text-primary">
+      <h2 class="mb-2 mt-0 text-4xl font-medium leading-tight text-yellow-600">
         Upload Results
       </h2>
       <UploadForm></UploadForm>
