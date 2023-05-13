@@ -15,7 +15,7 @@ export default function Features() {
   const featureItems: FeatureItem[] = [
     {
       icon: IconAlarm,
-      description: "Lap Times of your ACC sessions publicly available",
+      description: "Lap Times of your ACC sessions publicly accessible",
     },
     {
       icon: IconAirBalloon,
@@ -36,10 +36,10 @@ export default function Features() {
     <div class="flex flex-col flex-row gap-8 bg-white pt-6">
       {featureItems.map((item) => {
         return (
-          <div class="flex">
-            <div class="flex-initial">
-              <div class="bg-yellow-600 inline-block p-3 rounded-xl text-white">
-                <item.icon class="w-8 h-8" />
+          <div class="flex items-center">
+            <div class="flex flex-initial items-center">
+              <div class="bg-yellow-600 inline-block p-2 rounded-md text-white">
+                <item.icon class="w-6 h-6" />
               </div>
             </div>
             <p class="flex-1 ml-4 text-xl">
