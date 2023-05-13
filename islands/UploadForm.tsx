@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 import Button from "../islands/Button.tsx";
 import Input from "../components/Input.tsx";
 import { useState } from "preact/hooks";
@@ -26,31 +27,56 @@ export default function UploadForm() {
   const [pwBlured, setPwBlured] = useState<boolean>(false);
   const [groupingActive, setGroupingActive] = useState<boolean>(false);
 
+  const tryLoadFile = (
+    file: File,
+    encoding: "UTF-16" | "UTF-8",
+    success: (data: any) => void,
+    error: (exc: any) => void,
+  ) => {
+    const reader = new FileReader();
+
+    reader.readAsText(file, encoding);
+    reader.onload = (event) => {
+      console.log(event.target?.result);
+      const string_data = event.target?.result ?? "";
+      try {
+        const obj = JSON.parse(string_data as string);
+        success(obj);
+      } catch (exc) {
+        error(exc);
+      }
+    };
+  };
+
   const handleFileSelect = (
     e: Event,
   ) => {
     const files = (e.target as HTMLInputElement)?.files;
     setFileError(false);
     if (files?.length) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        console.log(event.target?.result);
-        const string_data = event.target?.result ?? "";
-        try {
-          const obj = JSON.parse(string_data as string);
-          console.log(obj);
-          setFile(obj);
-        } catch (exc) {
-          console.error("could not parse uploaded file", exc.message);
-          (e.target as HTMLInputElement).value = "";
+      const file = files[0];
+      tryLoadFile(file, "UTF-16", successHandler, (error: any) => {
+        console.error(
+          "could not parse uploaded file with UTF-16",
+          error.message,
+        );
+
+        console.log("trying UTF-8 encoding");
+        tryLoadFile(file, "UTF-8", successHandler, (error: any) => {
+          console.error("could not parse uploaded file", error.message);
+          setFile("");
           setFileError(true);
-        }
-      };
-      reader.readAsText(files[0]);
+        });
+      });
     } else {
       setFile(null);
       setFileError(false);
     }
+  };
+
+  const successHandler = (data: any) => {
+    console.log(data);
+    setFile(data);
   };
 
   return (
