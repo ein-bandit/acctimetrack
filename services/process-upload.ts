@@ -2,6 +2,7 @@ import { Redis } from "https://deno.land/x/redis@v0.29.3/mod.ts";
 import { createClient, getNextId } from "./redis-client.ts";
 import { getLapsPerDriver } from "./results-gatherer.ts";
 import { LapTimeResult, MetaData, SessionResults } from "./types.d.ts";
+import { cleanName } from "./meta-helper.ts";
 
 export const processFiles = async (
   _meta: MetaData,
@@ -24,7 +25,7 @@ export const processFiles = async (
   await storeSession(redis, id, session);
 
   const meta = {
-    name: _meta.name?.trim().replaceAll(" ", "_"),
+    name: _meta.name && _meta.name.length ? cleanName(_meta.name) : "",
   };
 
   if (meta.name && meta.name.length) {
