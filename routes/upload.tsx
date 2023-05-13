@@ -60,7 +60,7 @@ export const handler = async (
     }
 
     // validate json file
-    if (json && !validateResults(json)) {
+    if (!json || !validateResults(json)) {
       console.log("results was not valid");
       return createResponse(400, "Missing or wrong data in results file");
     }
