@@ -2,9 +2,20 @@ import { Redis } from "https://deno.land/x/redis@v0.29.3/mod.ts";
 import { createClient, getNextId } from "./redis-client.ts";
 import { getLapsPerDriver } from "./results-gatherer.ts";
 import { LapTimeResult, MetaData, SessionResults } from "./types.d.ts";
-import { cleanName } from "./meta-helper.ts";
+import { cleanName } from "./data-helper.ts";
 
 export type StorageInfo = [number, string];
+
+export interface DBSession {
+  internalId: number;
+  sessionType: string;
+  trackName: string;
+  isWetSession: boolean;
+  timestamp: number;
+  times: {
+    [key: string]: LapTimeResult;
+  };
+}
 
 export const processFiles = async (
   _meta: MetaData,
@@ -14,16 +25,17 @@ export const processFiles = async (
 
   const best_lap_times_per_driver = getLapsPerDriver(results);
 
-  const session = {
+  const redis = await createClient();
+  const id = await getNextId(redis);
+
+  const session: DBSession = {
+    internalId: id,
     sessionType: results.sessionType,
     trackName: results.trackName,
     isWetSession: results.sessionResult.isWetSession === 1,
     timestamp: new Date().getTime(),
     times: best_lap_times_per_driver,
   };
-
-  const redis = await createClient();
-  const id = await getNextId(redis);
 
   await storeSession(redis, id, session);
 
@@ -37,15 +49,6 @@ export const processFiles = async (
 
   return [id, meta.name];
 };
-
-interface DBSession {
-  sessionType: string;
-  trackName: string;
-  isWetSession: boolean;
-  times: {
-    [key: string]: LapTimeResult;
-  };
-}
 
 const storeSession = async (redis: Redis, id: number, session: DBSession) => {
   await redis.set(id.toString(), JSON.stringify(session));

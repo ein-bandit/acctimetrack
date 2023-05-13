@@ -1,4 +1,4 @@
-import { cleanName } from "../services/meta-helper.ts";
+import { cleanName } from "../services/data-helper.ts";
 
 type Props = {
   name: string;

@@ -129,6 +129,7 @@
     "https://deno.land/x/fresh@1.1.5/src/server/types.ts": "6579aac850ea4af5cdfee8f9552fbadebb7b50841d180b75bd90466416feee86",
     "https://deno.land/x/importmap@0.2.1/_util.ts": "ada9a9618b537e6c0316c048a898352396c882b9f2de38aba18fd3f2950ede89",
     "https://deno.land/x/importmap@0.2.1/mod.ts": "ae3d1cd7eabd18c01a4960d57db471126b020f23b37ef14e1359bbb949227ade",
+    "https://deno.land/x/is_number@v1.6.1/mod.ts": "b4a0e0ee95c43acfb664c489041af20e27edb8fded3ef71b9ab54b8e21e888d4",
     "https://deno.land/x/redis@v0.29.3/backoff.ts": "33e4a6e245f8743fbae0ce583993a671a3ac2ecee433a3e7f0bd77b5dd541d84",
     "https://deno.land/x/redis@v0.29.3/command.ts": "9d1a679821c9065298fc2b8831b6532605426259b17a1f9d41ee9219180244c7",
     "https://deno.land/x/redis@v0.29.3/connection.ts": "335f0aa728b8e0b90353c4015daf5abaa7cae657739eb66cb48324f2d197dcc0",
