@@ -54,10 +54,12 @@ export const handler = async (
 
     // validate json file
     if (json && !validateResults(json)) {
-      return createResponse(400, "Missing data in results file");
+      console.log("results was not valid");
+      return createResponse(400, "Missing or wrong data in results file");
     }
     // validate meta data
     if (meta_data && !validateMeta(meta_data)) {
+      console.log("meta data was not valid");
       return createResponse(
         400,
         `Invalid meta data retrieved. Name is longer than ${MAX_META_NAME_LENGTH} characters`,
