@@ -191,7 +191,8 @@ export default function UploadForm() {
           <Button
             type="submit"
             text="Upload"
-            disabled={!file || !meta.name.length || fileError}
+            disabled={fileError ||
+              (groupingActive && (nameError || passwordError))}
           >
           </Button>
         </div>
