@@ -89,7 +89,9 @@ export const handler = async (
 };
 
 const createLinksFromStorageInfo = (storageInfo: StorageInfo): string[] => {
-  return storageInfo.map((si) => `${Deno.env.get("HOST")}/${si}`);
+  return storageInfo.filter((si) => si !== null).map((si) =>
+    `${Deno.env.get("HOST")}/${si}`
+  );
 };
 
 export default function Upload(props: PageProps) {

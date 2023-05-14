@@ -4,7 +4,7 @@ import { getLapsPerDriver } from "./results-gatherer.ts";
 import { LapTimeResult, MetaData, SessionResults } from "./types.d.ts";
 import { cleanName } from "./data-helper.ts";
 
-export type StorageInfo = [number, string];
+export type StorageInfo = [number, string | null];
 
 export interface DBSession {
   internalId: number;
@@ -47,7 +47,7 @@ export const processFiles = async (
     await storeCollection(redis, meta.name, id);
   }
 
-  return [id, meta.name];
+  return [id, meta.name || null];
 };
 
 const storeSession = async (redis: Redis, id: number, session: DBSession) => {
