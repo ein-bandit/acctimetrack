@@ -14,7 +14,7 @@ export const handler: Handlers<DBSession[]> = {
     console.log("requested url", ctx.params.name);
 
     const name = ctx.params.name;
-    const is_valid_url = !isNumber(name) || !validateGroupName(name);
+    const is_valid_url = isNumber(name) || validateGroupName(name);
 
     if (data.length === 0 || !is_valid_url) {
       return ctx.renderNotFound();
